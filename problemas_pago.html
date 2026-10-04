@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Soporte de Envío | AniVerse Corp.</title>
+    <link rel="stylesheet" href="CSS/pagina.css">
+</head>
+<body>
+
+    <header>
+        <div class="header-left">
+            <a href="pagina.html" class="logo-link">
+                <img src="img-pagina/Aniverse.png" alt="Logo AniVerse Corp." class="header-logo">
+                <h1>Aniverse Corp.</h1>
+            </a>
+        </div>
+    </header>
+
+    <div class="main-content-wrapper" style="max-width: 600px; margin: 40px auto; padding: 20px; background: #2f3542; border-radius: 8px; color: white;">
+        <h2>Reportar Problema con Envío</h2>
+        <p>Si tuviste algún inconveniente con el envío o estado de tu producto, completa este formulario.</p>
+        
+        <form id="form-problema" onsubmit="guardarProblemaEnvio(event)">
+            <label style="display:block; margin-top:15px;">Nombre Completo:</label>
+            <input type="text" id="reporte-cliente" placeholder="Tu nombre" required style="width:100%; padding:10px; margin-top:5px; border-radius:4px; border:none;">
+
+            <label style="display:block; margin-top:15px;">Correo Electrónico:</label>
+            <input type="email" id="reporte-correo" placeholder="correo@ejemplo.com" required style="width:100%; padding:10px; margin-top:5px; border-radius:4px; border:none;">
+
+            <label style="display:block; margin-top:15px;">Descripción del Problema:</label>
+            <textarea id="reporte-descripcion" rows="4" placeholder="Escribe detalles del paquete o retraso..." required style="width:100%; padding:10px; margin-top:5px; border-radius:4px; border:none;"></textarea>
+
+            <button type="submit" style="background:#ffaa00; color:#1e1e2f; font-weight:bold; padding:12px 20px; border:none; border-radius:4px; margin-top:20px; cursor:pointer; width:100%;">Enviar Reporte</button>
+        </form>
+    </div>
+
+    <script>
+        function guardarProblemaEnvio(e) {
+            e.preventDefault();
+            const cliente = document.getElementById('reporte-cliente').value;
+            const correo = document.getElementById('reporte-correo').value;
+            const descripcion = document.getElementById('reporte-descripcion').value;
+
+            let reportes = JSON.parse(localStorage.getItem('problemasEnvio')) || [];
+            const nuevoId = reportes.length + 1;
+
+            reportes.push({ id: nuevoId, cliente, correo, descripcion });
+            localStorage.setItem('problemasEnvio', JSON.stringify(reportes));
+
+            alert('Reporte enviado con éxito. Nuestro equipo te contactará pronto.');
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

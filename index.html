@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AniVerse Corp. | Menú Principal</title>
+    <link rel="stylesheet" href="CSS/index.css">
+</head>
+<body>
+    <div class="main-container">
+        <div class="logo-section">
+            <img src="img-pagina/Aniverse.png" alt="Logo AniVerse Corp." class="main-logo" onerror="this.style.display='none'">
+            <h1>AniVerse Corp.</h1>
+            <p>Selecciona el módulo al que deseas ingresar</p>
+        </div>
+
+        <div class="menu-options">
+            <button class="menu-card" onclick="navegarA('admin.html')">
+                <span class="icon">⚙️</span>
+                <h2>Ir a Administrador</h2>
+                <p>Gestión de inventario, reportes y configuración.</p>
+            </button>
+
+            <button class="menu-card" onclick="navegarA('cajero.html')">
+                <span class="icon">💻</span>
+                <h2>Ir a Cajero</h2>
+                <p>Punto de venta (POS), cobro rápido y facturación.</p>
+            </button>
+
+            <button class="menu-card" onclick="navegarA('pagina.html')">
+                <span class="icon">🌐</span>
+                <h2>Ir a Página Web</h2>
+                <p>Catálogo público de productos para clientes.</p>
+            </button>
+        </div>
+    </div>
+
+    <script src="JV/index.js"></script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+/* ==========================================================================
+   ESTILOS EXCLUSIVOS PARA EL SISTEMA DE CAJA (POS)
+   ========================================================================== */
+
+/* Cambiar el color de acento del encabezado a verde */
+header { 
+    border-bottom: 2px solid #2ed573 !important; 
+}
+
+/* Botón de la orden en verde */
+.cart-trigger { 
+    background: #2ed573 !important; 
+    color: #181824 !important; 
+}
+
+.cart-trigger:hover { 
+    background: #26af5f !important; 
+}
+
+/* Título de separación en verde */
+.separacion-apartado h1 { 
+    color: #2ed573 !important; 
+}
+
+/* Botón de agregar al carrito en verde para el cajero */
+.btn-add-cart {
+    background: #2ed573 !important;
+    color: #181824 !important;
+}
+
+.btn-add-cart:hover {
+    background: #26af5f !important;
+}
+
+/* Estilos para el Ticket de Factura (Apariencia de papel térmico) */
+.ticket-factura {
+    background-color: #ffffff;
+    color: #000000;
+    font-family: 'Courier New', Courier, monospace; /* Fuente de ticket */
+    padding: 25px;
+    margin: 0 auto;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    border: 1px solid #ddd;
+}
+
+.ticket-factura h2, .ticket-factura h3, .ticket-factura p {
+    color: #000000 !important; /* Fuerza el color negro para el ticket */
+}
+
+.botones-factura {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.btn-imprimir {
+    background: #2ed573;
+    color: #181824;
+    border: none;
+    padding: 12px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.btn-imprimir:hover {
+    background: #26af5f;
+}
+
+.btn-cerrar {
+    background: #ff4757;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* ==========================================================================
+   CONFIGURACIÓN PARA IMPRESORA REAL
+   ========================================================================== */
+@media print {
+    /* Ocultar TODO el cuerpo de la página */
+    body * {
+        visibility: hidden;
+    }
+    
+    /* Mostrar SOLO la factura */
+    #factura-modal, #factura-modal * {
+        visibility: visible;
+    }
+    
+    #factura-modal {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        background: transparent;
+    }
+    
+    /* Ocultar los botones al momento de imprimir el papel */
+    .botones-factura {
+        display: none !important;
+    }
+    
+    .ticket-factura {
+        box-shadow: none;
+        border: none;
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+}

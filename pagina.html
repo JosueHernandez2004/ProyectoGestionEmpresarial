@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aniverse Corp. | Tienda Anime</title>
+    <link rel="stylesheet" href="CSS/pagina.css">
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <div id="hamburger-menu" onclick="toggleSidebar()">☰</div>
+            <a href="pagina.html" class="logo-link">
+                <img src="img-pagina/Aniverse.png" alt="Logo AniVerse Corp." class="header-logo">
+                <h1>AniVerse Corp.</h1>
+            </a>
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar figura, manga, cosplay..." onkeyup="buscarProducto()">
+        </div>
+        <div id="cart-icon" onclick="toggleCart()" class="cart-trigger"> Ver Carrito (<span id="cart-count">0</span>)</div>
+    </header>
+
+    <nav id="sidebar" class="sidebar">
+        <span class="close-btn" onclick="toggleSidebar()">&times;</span>
+        <h3>Categorías Anime</h3>
+        <ul>
+            <li><a href="#" onclick="filtrarPorCategoria('Todos')">Catálogo Completo</a></li>
+            <li><a href="#" onclick="filtrarPorCategoria('Figuras Coleccionables')">Figuras Coleccionables</a></li>
+            <li><a href="#" onclick="filtrarPorCategoria('Mangas y Cómics')">Mangas y Cómics</a></li>
+            <li><a href="#" onclick="filtrarPorCategoria('Cosplay y Ropa')">Cosplay y Ropa</a></li>
+            <li><a href="#" onclick="filtrarPorCategoria('Accesorio y Katanas')">Accesorios y Katanas</a></li>
+            <li><a href="#" onclick="filtrarPorCategoria('Pósters y Decoración')">Pósters y Decoración</a></li>
+        </ul>
+        
+        <h3>Soporte & Pedidos</h3>
+        <ul>
+            <li><a href="problemas_pago.html">Problema de Envío</a></li>
+            <li><a href="encargar.html">Encargar un Producto Especial</a></li>
+            <li><a href="#" onclick="toggleNosotros(); toggleSidebar();">Sobre Nosotros</a></li>
+        </ul>
+    </nav>
+
+    <!-- MODAL SOBRE NOSOTROS -->
+    <div id="nosotros-modal" class="modal">
+        <div class="modal-content nosotros-content">
+            <span class="close" onclick="toggleNosotros()">&times;</span>
+            <div class="nosotros-header">
+                <img src="img-pagina/Aniverse.png" alt="Logo AniVerse Corp." class="nosotros-logo">
+                <h2>AniVerse Corp.</h2>
+                <p class="nosotros-eslogan">"El universo del anime, diseñado para coleccionistas."</p>
+            </div>
+            
+            <div class="nosotros-grid">
+                <div class="nosotros-card">
+                    <h3 class="card-title">Misión</h3>
+                    <p class="card-text">
+                        Proveer productos y coleccionables de anime mediante una plataforma moderna y responsiva, garantizando la integridad absoluta del stock y un control transaccional seguro en cada operación. Nos enfocamos en la trazabilidad completa del catálogo y una gestión automatizada para ofrecer eficiencia, autenticidad y confianza a nuestros clientes.
+                    </p>
+                </div>
+                <div class="nosotros-card">
+                    <h3 class="card-title">Visión</h3>
+                    <p class="card-text">
+                        Ser la tienda en línea de cultura pop japonesa más innovadora y confiable del sector, impulsada por un desarrollo técnico continuo y una infraestructura digital sólida. Aspiramos a establecer estándares de transparencia, velocidad y control transaccional que garanticen la máxima satisfacción de nuestros clientes.
+                    </p>
+                </div>
+            </div>
+
+            <h3 class="organigrama-titulo">Estructura Organizacional (Organigrama)</h3>
+            <div class="organigrama-container">
+                <img src="img-pagina/Organigrama.png" alt="Organigrama AniVerse Corp." class="organigrama-img">
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL CARRITO -->
+    <div id="cart-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="toggleCart()">&times;</span>
+            <h2>Tu Carrito Anime</h2>
+            <div id="cart-items"></div>
+            <hr>
+            
+            <div class="checkout-form">
+                <h3>Datos del Cliente</h3>
+                <input type="text" id="rtn-input" placeholder="RTN / ID (Para autocompletar)" onblur="buscarClienteRTN()">
+                <input type="text" id="nombre-input" placeholder="Nombre Completo" required>
+                <input type="text" id="telefono-input" placeholder="Teléfono">
+                
+                <!-- NUEVO: Selección de País de Envío -->
+                <select id="pais-input" required>
+                    <option value="" disabled selected>Selecciona tu país de envío</option>
+                    <option value="Honduras">Honduras</option>
+                    <option value="Guatemala">Guatemala</option>
+                    <option value="El Salvador">El Salvador</option>
+                    <option value="Nicaragua">Nicaragua</option>
+                    <option value="Costa Rica">Costa Rica</option>
+                    <option value="México">México</option>
+                    <option value="Estados Unidos">Estados Unidos</option>
+                    <option value="España">España</option>
+                </select>
+                
+                <input type="text" id="direccion-input" placeholder="Dirección exacta (Ciudad, Calle, Casa...)">
+                
+                <h3>Descuento Otaku Maker / Membresía</h3>
+                <input type="text" id="dni-input" placeholder="DNI VIP (Ej: 0501-2000-12345)" onblur="validarMembresiaVIP()">
+                <p id="msg-descuento" class="msg-descuento-vip"></p>
+
+                <div id="receta-container" class="receta-box" style="display: none;">
+                    <strong class="receta-alerta">¡Atención! Hay artículos de Importación Especial o Edición Limitada que requieren aprobación de documento/permiso.</strong>
+                    <input type="file" id="receta-file" accept="image/*,application/pdf" class="receta-input">
+                </div>
+
+                <h3>Método de Pago</h3>
+                <select id="metodo-pago">
+                    <option value="debito">Tarjeta de Débito</option>
+                    <option value="credito">Tarjeta de Crédito</option>
+                </select>
+                <input type="text" id="cuenta-input" placeholder="Número de Tarjeta (16 dígitos)">
+                <input type="text" id="titular-tarjeta" placeholder="Nombre del Titular de la Tarjeta">
+                <div class="tarjeta-detalles">
+                    <input type="text" id="vencimiento-tarjeta" placeholder="MM/AA" class="input-half">
+                    <input type="password" id="cvv-tarjeta" placeholder="CVV (3 dígitos)" maxlength="3" class="input-half">
+                </div>
+            </div>
+
+            <div class="cart-total">
+                <p>Subtotal: $<span id="cart-subtotal">0.00</span></p>
+                <p>Descuento VIP: $<span id="cart-descuento">0.00</span></p>
+                <p>ISV (15%): $<span id="cart-impuesto">0.00</span></p>
+                <strong>Total a pagar: $<span id="cart-total-price">0.00</span></strong>
+            </div>
+            <button class="btn-checkout" onclick="checkout()">Finalizar Compra</button>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+    
+    <div class="separacion-apartado">
+        <h1>Aniverse Corp. <span id="nombre-categoria"></span></h1>
+    </div>
+
+    <main class="shop-container" id="product-catalog"></main>
+
+    <script src="JV/pagina.js"></script>
+</body>
+</html>

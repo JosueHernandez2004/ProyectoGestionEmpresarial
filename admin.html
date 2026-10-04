@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Aniverse Corp. | Panel de Control</title>
+    <link rel="stylesheet" href="CSS/admin.css">
+</head>
+<body>
+
+    <div class="panel-header-tabs">
+        <div class="admin-nav-tabs">
+            <button onclick="cambiarTab('inventario')" id="tab-inventario" class="nav-tab active">Inventario Anime</button>
+            <button onclick="cambiarTab('vip')" id="tab-vip" class="nav-tab">Miembros VIP</button>
+            <button onclick="cambiarTab('facturas')" id="tab-facturas" class="nav-tab">Facturas Emitidas</button>
+            <button onclick="cambiarTab('pagos')" id="tab-pagos" class="nav-tab">Reportes de Envíos</button>
+            <button onclick="cambiarTab('encargos')" id="tab-encargos" class="nav-tab">Control de Stock Crítico</button>
+            <button onclick="cambiarTab('encargos_med')" id="tab-encargos_med" class="nav-tab">Pedidos Especiales</button>
+        </div>
+    </div>
+
+    <div class="main-content-wrapper">
+        <div id="msg" class="msg" style="display:none;"></div>
+        
+        <!-- PESTAÑA INVENTARIO -->
+        <div id="sec-inventario" class="tab-content">
+            <div class="admin-form">
+                <h2 id="form-titulo">Añadir Producto al Inventario</h2>
+                <form id="form-producto">
+                    <input type="hidden" id="prod-id">
+                    <label>Nombre del Producto Anime:</label>
+                    <input type="text" id="prod-nombre" placeholder="Ej: Figura Naruto Shippuden" required>
+                    
+                    <label>Categoría:</label>
+                    <select id="prod-categoria" required>
+                        <option value="Figuras Coleccionables">Figuras Coleccionables</option>
+                        <option value="Mangas y Cómics">Mangas y Cómics</option>
+                        <option value="Cosplay y Ropa">Cosplay y Ropa</option>
+                        <option value="Accesorio y Katanas">Accesorio y Katanas</option>
+                        <option value="Pósters y Decoración">Pósters y Decoración</option>
+                    </select>
+                    
+                    <label>Descripción:</label>
+                    <textarea id="prod-descripcion" placeholder="Detalles de la edición, tamaño..." required rows="3"></textarea>
+                    
+                    <div class="form-row">
+                        <div class="form-col">
+                            <label>Precio ($):</label>
+                            <input type="number" step="0.01" id="prod-precio" placeholder="0.00" required>
+                        </div>
+                        <div class="form-col">
+                            <label>Stock Disponible:</label>
+                            <input type="number" id="prod-stock" placeholder="0" required>
+                        </div>
+                    </div>
+                    
+                    <label>Seleccionar Imagen (Carpeta img/):</label>
+<div style="display: flex; gap: 10px; margin-bottom: 15px;">
+    <select id="prod-imagen" required>
+        <option value="">-- Selecciona una imagen --</option>
+    </select>
+    <button type="button" id="btn-cargar-carpeta"> Vincular Carpeta</button>
+</div>
+                    
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="prod-receta"> 
+                        <strong>Requiere Aprobación Especial / Edición Limitada</strong>
+                    </label>
+                    
+                    <button type="submit" class="btn-submit" id="btn-guardar">Guardar Producto</button>
+                    <button type="button" class="btn-cancel" id="btn-cancelar" onclick="limpiarFormulario()" style="display:none;">Cancelar Edición</button>
+                </form>
+            </div>
+
+            <div class="table-container">
+                <h3>Lista de Existencias</h3>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Imagen</th>
+                                <th>Producto</th>
+                                <th>Categoría</th>
+                                <th>Precio</th>
+                                <th>Stock</th>
+                                <th>Especial</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-inventario"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- PESTAÑA MIEMBROS VIP -->
+        <div id="sec-vip" class="tab-content" style="display:none;">
+            <div class="admin-form">
+                <h2>Registrar Nuevo Miembro VIP / Otaku Maker</h2>
+                <form id="form-vip">
+                    <label>DNI / Identificación del Cliente:</label>
+                    <input type="text" id="vip-dni" placeholder="Ej: 0501-2000-12345" required>
+                    
+                    <label>Nombre del Cliente:</label>
+                    <input type="text" id="vip-nombre" placeholder="Nombre completo" required>
+                    
+                    <label>Porcentaje de Descuento (%):</label>
+                    <input type="number" id="vip-descuento" placeholder="Ej: 15" min="1" max="100" value="15" required>
+                    
+                    <button type="button" class="btn-submit" onclick="guardarMiembroVIP(event)">Registrar Miembro VIP</button>
+                </form>
+            </div>
+
+            <div class="table-container">
+                <h3>Lista de Miembros VIP Registrados</h3>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>DNI / ID</th>
+                                <th>Nombre</th>
+                                <th>Descuento (%)</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-vip"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- PESTAÑA FACTURAS -->
+        <div id="sec-facturas" class="tab-content" style="display:none;">
+            <div class="table-container-full">
+                <h3>Historial de Facturas Emitidas</h3>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Factura #</th>
+                                <th>Fecha</th>
+                                <th>Cliente</th>
+                                <th>Dirección de Envío</th>
+                                <th>Productos (Cant.)</th> <!-- NUEVA COLUMNA AQUÍ -->
+                                <th>Subtotal</th>
+                                <th>ISV</th>
+                                <th>Total</th>
+                                <th>Método Pago</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-facturas"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- PESTAÑA PROBLEMAS DE ENVÍO -->
+        <div id="sec-pagos" class="tab-content" style="display:none;">
+            <div class="table-container-full">
+                <h3>Reportes de Inconvenientes con Envíos</h3>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID Reporte</th>
+                                <th>Cliente</th>
+                                <th>Correo Electrónico</th>
+                                <th>Descripción del Problema</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-problemas"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- PESTAÑA REPOSICIÓN STOCK -->
+        <div id="sec-encargos" class="tab-content" style="display:none;">
+            <div class="table-container-full">
+                <h3>Reposición Crítica de Mercancía Anime</h3>
+                <p class="subtexto-descriptivo">Productos con stock menor o igual a 5 unidades.</p>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Imagen</th>
+                                <th>Producto</th>
+                                <th>Categoría</th>
+                                <th>Stock</th>
+                                <th>Prioridad</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-encargos-criticos"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- PESTAÑA ENCARGOS ESPECIALES -->
+        <div id="sec-encargos_med" class="tab-content" style="display:none;">
+            <div class="table-container-full">
+                <h3>Encargos Especiales de Clientes</h3>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Cliente / Contacto</th>
+                                <th>Artículo Solicitado</th>
+                                <th>Cantidad</th>
+                                <th>Notas / Especificaciones</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-encargos-especiales"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="JV/admin.js"></script>
+</body>
+</html>

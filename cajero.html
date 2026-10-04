@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aniverse Corp. | Sistema de Caja (POS)</title>
+    <!-- Estilos base de la tienda -->
+    <link rel="stylesheet" href="CSS/pagina.css">
+    <!-- Estilos exclusivos del cajero -->
+    <link rel="stylesheet" href="CSS/cajero.css">
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <a href="cajero.html" class="logo-link">
+                <img src="img-pagina/Aniverse.png" alt="Logo AniVerse Corp." class="header-logo">
+                <h1>AniVerse Corp. - CAJA</h1>
+            </a>
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar producto en mostrador..." onkeyup="buscarProducto()">
+        </div>
+        <div id="cart-icon" onclick="toggleCart()" class="cart-trigger"> Ver Orden (<span id="cart-count">0</span>)</div>
+    </header>
+
+    <!-- MODAL ORDEN DE CAJA -->
+    <div id="cart-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="toggleCart()">&times;</span>
+            <h2>Orden de Venta en Mostrador</h2>
+            <div id="cart-items"></div>
+            <hr>
+            
+            <div class="checkout-form">
+                <h3>Datos del Cliente</h3>
+                <input type="text" id="rtn-input" placeholder="RTN / ID (Opcional)" onblur="buscarClienteRTN()">
+                <input type="text" id="nombre-input" placeholder="Nombre del Cliente" value="Cliente Final">
+                
+                <h3>Descuento VIP</h3>
+                <input type="text" id="dni-input" placeholder="DNI VIP (Ej: 0501-2000-12345)" onblur="validarMembresiaVIP()">
+                <p id="msg-descuento" class="msg-descuento-vip"></p>
+
+                <h3>Método de Pago</h3>
+                <select id="metodo-pago" onchange="cambiarMetodoPago()">
+                    <option value="Efectivo">Efectivo</option>
+                    <option value="Tarjeta">Tarjeta (Débito/Crédito)</option>
+                </select>
+
+                <!-- Campos para pago en Efectivo -->
+                <div id="pago-efectivo" style="display: block; background: #1a221f; padding: 10px; border-left: 3px solid #2ed573; margin-top: 10px;">
+                    <label>Monto Recibido ($):</label>
+                    <input type="number" id="monto-recibido" step="0.01" placeholder="Ej. 100.00" onkeyup="calcularCambio()">
+                    <p style="margin-top: 5px; color: #2ed573; font-size: 1.1em;">
+                        <strong>Vuelto a entregar: </strong>$<span id="cambio-vuelto">0.00</span>
+                    </p>
+                </div>
+
+                <!-- Campos simulados para Tarjeta -->
+                <div id="pago-tarjeta" style="display: none; background: #1a1b22; padding: 10px; border-left: 3px solid #ffaa00; margin-top: 10px;">
+                    <label>Datos de la Tarjeta (No se guardarán):</label>
+                    <input type="text" id="num-tarjeta" placeholder="Número de Tarjeta (16 dígitos)" maxlength="16">
+                    <div style="display: flex; gap: 10px; margin-top: 5px;">
+                        <input type="text" id="exp-tarjeta" placeholder="MM/AA" maxlength="5">
+                        <input type="password" id="cvv-tarjeta" placeholder="CVV" maxlength="3">
+                    </div>
+                </div>
+
+                <div class="cart-total">
+                    <p>Subtotal: $<span id="cart-subtotal">0.00</span></p>
+                    <p>Descuento VIP: $<span id="cart-descuento">0.00</span></p>
+                    <p>ISV (15%): $<span id="cart-impuesto">0.00</span></p>
+                    <strong>Total a cobrar: $<span id="cart-total-price">0.00</span></strong>
+                </div>
+                <button class="btn-checkout" onclick="checkoutCajero()">Procesar Venta</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE TICKET / FACTURA -->
+    <div id="factura-modal" class="modal">
+        <div class="modal-content" style="max-width: 400px;">
+            <div id="ticket-imprimir" class="ticket-factura">
+                <!-- El ticket se genera con JS aquí -->
+            </div>
+            <div class="botones-factura">
+                <button onclick="imprimirFactura()" class="btn-imprimir">🖨️ Imprimir Factura</button>
+                <button onclick="cerrarFactura()" class="btn-cerrar">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+    
+    <div class="separacion-apartado">
+        <h1>Catálogo Rápido - Cajero</h1>
+    </div>
+
+    <main class="shop-container" id="product-catalog"></main>
+
+    <!-- Asegúrate de que la carpeta sea 'JS' o 'JV' según tu estructura real -->
+    <script src="JV/cajero.js"></script>
+</body>
+</html>
